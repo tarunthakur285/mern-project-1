@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Login() {
+function Login({ updatedUserDetails }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState(null);
@@ -32,7 +32,10 @@ function Login() {
 
     if (validate()) {
       if (formData.username === "admin" && formData.password === "admin") {
-        setMessage("Valid credentials");
+        updatedUserDetails({
+          name: "Tarun Thakur",
+          email: "tarun@thakur.com",
+        });
       } else {
         setMessage("Invalid credentials");
       }
@@ -55,7 +58,9 @@ function Login() {
             value={formData.username}
             onChange={handleChange}
           />
-          {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
+          {errors.username && (
+            <p style={{ color: "red" }}>{errors.username}</p>
+          )}
         </div>
 
         <div>
@@ -67,7 +72,9 @@ function Login() {
             value={formData.password}
             onChange={handleChange}
           />
-          {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+          {errors.password && (
+            <p style={{ color: "red" }}>{errors.password}</p>
+          )}
         </div>
 
         <button type="submit">Submit</button>
