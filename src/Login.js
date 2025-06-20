@@ -39,7 +39,7 @@ function Login({ updatedUserDetails }) {
         withCredentials:true
       };
       try{
-      const response= await axios.post('http://localhost:5000/auth/login', body, config);
+      const response= await axios.post('http://localhost:5001/auth/login', body, config);
       updatedUserDetails(response.data.user);
       }
       catch(error){
