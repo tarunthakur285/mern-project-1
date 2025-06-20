@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 function Login({ updatedUserDetails }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -27,23 +27,27 @@ function Login({ updatedUserDetails }) {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (validate()) {
-      if (formData.username === "admin" && formData.password === "admin") {
-        updatedUserDetails({
-          name: "Tarun Thakur",
-          email: "tarun@thakur.com",
-        });
-      } else {
-        setMessage("Invalid credentials");
+      const body={
+        username:formData.username,
+        password:formData.password
+      };
+      const config={
+        withCredentials:true
+      };
+      try{
+      const response= await axios.post('http://localhost:5000/auth/login', body, config);
+      updatedUserDetails(response.data.user);
       }
-    } else {
-      setMessage(null);
-    }
+      catch(error){
+        console.error(error);
+        setErrors({message:"Something went wrong. Please try again."});
+      }
+  }
   };
-
   return (
     <div style={{ textAlign: "center" }}>
       {message && <p>{message}</p>}

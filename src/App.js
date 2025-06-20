@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, {use, useEffect, useState } from "react";
+import axios from "axios";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
@@ -8,9 +9,17 @@ import Dashboard from "./pages/dashboard"; // Make sure this exists
 function App() {
   const [userDetails, setUserDetails] = useState(null);
 
-  const updateuserDetails = (updatedUserDetails) => {
-    setUserDetails(updatedUserDetails);
+  const updateuserDetails = (updatedUserDetails);
   };
+  const isUserLoggedIn = async () => {
+    const response=await axios.get('http://localhost:5000/auth/is-user-logged-in',{},{
+      withCredentials: true
+    });
+    updateuserDetails(response.data.user);
+  };
+  useEffect(() => {
+    isUserLoggedIn();
+  },[]);
 
   return (
     <Routes>
@@ -50,6 +59,6 @@ function App() {
       />
     </Routes>
   );
-}
+
 
 export default App;
