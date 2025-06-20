@@ -1,25 +1,34 @@
-import React, {use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Applayout from "./layout/Applayout";
-import Dashboard from "./pages/dashboard"; // Make sure this exists
+import Dashboard from "./pages/dashboard"; // Make sure the file name matches (uppercase 'D')
 
 function App() {
   const [userDetails, setUserDetails] = useState(null);
 
-  const updateuserDetails = (updatedUserDetails);
+  const updateUserDetails = (updatedUserDetails) => {
+    setUserDetails(updatedUserDetails);
   };
+
   const isUserLoggedIn = async () => {
-    const response=await axios.get('http://localhost:5000/auth/is-user-logged-in',{},{
-      withCredentials: true
-    });
-    updateuserDetails(response.data.user);
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/auth/is-user-logged-in",
+        { withCredentials: true }
+      );
+      setUserDetails(response.data.user);
+    } catch (error) {
+      console.error("User not logged in or error occurred:", error);
+      setUserDetails(null);
+    }
   };
+
   useEffect(() => {
     isUserLoggedIn();
-  },[]);
+  }, []);
 
   return (
     <Routes>
@@ -42,7 +51,7 @@ function App() {
             <Navigate to="/dashboard" />
           ) : (
             <Applayout>
-              <Login updatedUserDetails={updateuserDetails} />
+              <Login updatedUserDetails={updateUserDetails} />
             </Applayout>
           )
         }
@@ -50,15 +59,11 @@ function App() {
       <Route
         path="/dashboard"
         element={
-          userDetails ? (
-            <Dashboard />
-          ) : (
-            <Navigate to="/login" />
-          )
+          userDetails ? <Dashboard /> : <Navigate to="/login" />
         }
       />
     </Routes>
   );
-
+}
 
 export default App;
