@@ -5,6 +5,8 @@ import Home from "./Home";
 import Login from "./Login";
 import Applayout from "./layout/Applayout";
 import Dashboard from "./pages/dashboard"; // Make sure the file name matches (uppercase 'D')
+import Error from "./pages/Error"; // Import Error component
+import Logout from "./logout"; // Import Logout function
 
 function App() {
   const [userDetails, setUserDetails] = useState(null);
@@ -16,13 +18,12 @@ function App() {
   const isUserLoggedIn = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/auth/is-user-logged-in",
+        "http://localhost:5001/auth/is-user-logged-in",{},
         { withCredentials: true }
       );
       setUserDetails(response.data.user);
     } catch (error) {
-      console.error("User not logged in or error occurred:", error);
-      setUserDetails(null);
+      console.log(error)
     }
   };
 
@@ -54,6 +55,13 @@ function App() {
               <Login updatedUserDetails={updateUserDetails} />
             </Applayout>
           )
+        }
+      />
+      <Route
+        path="/logout"
+        element={userDetails ? 
+          <Logout updateUserDetails={updateUserDetails} /> :
+          <Navigate to="/login" />
         }
       />
       <Route

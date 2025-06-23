@@ -51,6 +51,7 @@ function Login({ updatedUserDetails }) {
   return (
     <div style={{ textAlign: "center" }}>
       {message && <p>{message}</p>}
+      {errors.message && <p style={{ color: "red" }}>{errors.message}</p>}
       <h1>Login Page</h1>
       <form onSubmit={handleSubmit}>
         <div>
