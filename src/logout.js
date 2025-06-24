@@ -19,6 +19,12 @@ function Logout({ updateUserDetails }) {
   useEffect(() => {
     handleLogout();
   }, []);
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <h2>Logging out...</h2>
+    </div>
+  );
 }
 
 export default Logout;

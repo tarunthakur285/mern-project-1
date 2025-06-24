@@ -52,7 +52,7 @@ function App() {
             <Navigate to="/dashboard" />
           ) : (
             <Applayout>
-              <Login updatedUserDetails={updateUserDetails} />
+              <Login updateUserDetails={updateUserDetails} />
             </Applayout>
           )
         }

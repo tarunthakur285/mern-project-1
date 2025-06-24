@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-function Login({ updatedUserDetails }) {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+function Login({ updateUserDetails }) {
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState(null);
 
@@ -14,9 +14,9 @@ function Login({ updatedUserDetails }) {
     let isValid = true;
     let newErrors = {};
 
-    if (!formData.username.trim()) {
+    if (!formData.email.trim()) {
       isValid = false;
-      newErrors.username = "Username is mandatory";
+      newErrors.email = "Email is mandatory";
     }
     if (!formData.password.trim()) {
       isValid = false;
@@ -32,7 +32,7 @@ function Login({ updatedUserDetails }) {
 
     if (validate()) {
       const body={
-        username:formData.username,
+        username:formData.email,
         password:formData.password
       };
       const config={
@@ -40,7 +40,7 @@ function Login({ updatedUserDetails }) {
       };
       try{
       const response= await axios.post('http://localhost:5001/auth/login', body, config);
-      updatedUserDetails(response.data.user);
+      updateUserDetails(response.data.user);
       }
       catch(error){
         console.error(error);
@@ -55,16 +55,16 @@ function Login({ updatedUserDetails }) {
       <h1>Login Page</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Username:</label><br />
+          <label htmlFor="email">Email:</label><br />
           <input
             type="text"
-            id="username"
-            name="username"
-            value={formData.username}
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
           />
-          {errors.username && (
-            <p style={{ color: "red" }}>{errors.username}</p>
+          {errors.email && (
+            <p style={{ color: "red" }}>{errors.email}</p>
           )}
         </div>
 
