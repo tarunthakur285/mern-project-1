@@ -7,6 +7,7 @@ import Applayout from "./layout/Applayout";
 import Dashboard from "./pages/dashboard"; // Make sure the file name matches (uppercase 'D')
 import Error from "./pages/Error"; // Import Error component
 import Logout from "./logout"; // Import Logout function
+import Signup from "./Signup";
 
 function App() {
   const [userDetails, setUserDetails] = useState(null);
@@ -68,6 +69,14 @@ function App() {
         path="/dashboard"
         element={
           userDetails ? <Dashboard /> : <Navigate to="/login" />
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <Applayout>
+            <Signup />
+          </Applayout>
         }
       />
     </Routes>
